@@ -8,20 +8,20 @@ import time
 
 HOST = 'http://gentle-stream-2067.herokuapp.com/'
 ACCESS_TOKEN = 'AAAC0ujN1UXEBAHvePMPjOreCk7GyvfZCsKoW51Hp5OD5bn6nYb8AdZABwhmWpnLkxw87t25JjXXrLNMh4WN10bAeD9ZCl6PWdm4B5jVhQZDZD'
-lATEST = None
+latest_access = None
 
 #Get a list of users ... yes, this could be huge, but we are just hacking ;)
 users = ['arcturus']
 
-def get_user_commits(user, latest_update):
-	global lATEST
+def get_user_commits(user):
+	global latest_access
 	user_feed = feedparser.parse('https://github.com/' + user + '.atom')
 	print 'Got ' + user_feed.feed.title
 	latest = None
 	for element in user_feed.entries:
 		date = iso8601.parse_date(str(element.published))
 		title = str(element.title)
-		if title.find('pushed') != -1 and is_date_bigger_than(date, lATEST) :
+		if title.find('pushed') != -1 and is_date_bigger_than(date, latest_access) :
 			#Is this the latest interaction?
 			project = title[title.index('/') + 1:]
 			commit = str(element.links[0].href)[str(element.links[0].href).index('...') + 3:]		
@@ -32,10 +32,10 @@ def get_user_commits(user, latest_update):
 			params['project'] = url
 			params = urllib.urlencode(params)
 			f = urllib.urlopen("https://graph.facebook.com/me/_codebook:Commit", params)
-			if latest == None:
-				latest = date
-			elif is_date_bigger_than(date, latest):
-				latest = date
+			if latest_access == None:
+				latest_access = date
+			elif is_date_bigger_than(date, latest_access):
+				latest_access = date
 			#print 'New push!: \n' + str(element)
 			
 	if latest != None:
@@ -57,7 +57,7 @@ def is_date_bigger_than(date1, date2):
 def main():
 	while True:
 		for user in users:
-			get_user_commits(user, datetime.datetime.now())
+			get_user_commits(user)
 			#get_user_commits(user, datetime.datetime(2011, 12, 30, 20, 43, 20))
 		time.sleep(15)
 	
