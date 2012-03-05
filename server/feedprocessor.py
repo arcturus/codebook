@@ -7,7 +7,7 @@ import urllib
 import time
 
 HOST = 'http://gentle-stream-2067.herokuapp.com/'
-ACCESS_TOKEN = 'AAAC0ujN1UXEBAHvePMPjOreCk7GyvfZCsKoW51Hp5OD5bn6nYb8AdZABwhmWpnLkxw87t25JjXXrLNMh4WN10bAeD9ZCl6PWdm4B5jVhQZDZD'
+ACCESS_TOKEN = 'AAAC0ujN1UXEBAA5nKpsSOzOurAGamZA5QVBLNLA5Uv6rFvkXFZBZCz9qUNndtGkkCEyfKPEqxvJ7qZBWto41gJXYRmWLJGzFSA3qmm1yawZDZD'
 latest_access = None
 
 #Get a list of users ... yes, this could be huge, but we are just hacking ;)
@@ -33,9 +33,9 @@ def get_user_commits(user):
 			params = urllib.urlencode(params)
 			f = urllib.urlopen("https://graph.facebook.com/me/_codebook:Commit", params)
 			print "1 " + str(latest_access)
-			if latest_access == None:
-				latest_access = date
-			elif is_date_bigger_than(date, latest_access):
+			if latest == None:
+				latest = date
+			elif is_date_bigger_than(date, latest):
 				latest = date
 			#print 'New push!: \n' + str(element)
 			print "2 " + str(latest_access)
