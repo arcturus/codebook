@@ -33,14 +33,14 @@ def get_user_commits(user):
 			params = urllib.urlencode(params)
 			f = urllib.urlopen("https://graph.facebook.com/me/_codebook:Commit", params)
 			if latest_access == None:
-				latest_access = date
+				latest = date
 			elif is_date_bigger_than(date, latest_access):
-				latest_access = date
+				latest = date
 			#print 'New push!: \n' + str(element)
 			
 	if latest != None:
 		print 'Latest interaction was: ' + str(latest)
-		lATEST = latest
+		latest_access = latest
 			
 def is_date_bigger_than(date1, date2):
 	"""
